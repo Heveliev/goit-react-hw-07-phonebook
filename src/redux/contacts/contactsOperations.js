@@ -12,5 +12,3 @@ export const getContacts =  createAsyncThunk('contacts/fetchAll',
         }
         
     })
-
-    console.log(getContacts.pending)

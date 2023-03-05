@@ -14,23 +14,26 @@ export const contactsSlice = createSlice({
     [getContacts.fulfilled]: (state, action) => {
       return {
         ...state,
-      items:[...state.items, ...action.payload]}
+      items:action.payload}
     },
     [getContacts.pending]: state => {
       return { ...state, isLoading:true}
+    },
+[getContacts.rejected]: (state, action) => {
+      return { ...state, error:action.payload}
     }
+
+
+    }
+})
+
+
+
+// export const { add, remove} = contactsSlice.actions;
+
         // add(state, action) {
         //     state.items.unshift(action.payload)
         // },
         // remove(state, action) {
         //   state.items = state.items.filter(contact => contact.id !== action.payload)
         // },
-    }
-})
-
-
-console.log(contactsSlice)
-
-
-
-// export const { add, remove} = contactsSlice.actions;

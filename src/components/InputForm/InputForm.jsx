@@ -1,41 +1,41 @@
 
-// import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Input } from 'components/Input/Input';
 import { Box, Btn } from './InputForm.styled';
-// import { add } from 'redux/contacts/contactsSlice';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { nanoid } from 'nanoid';
+import { add } from 'redux/contactsSlice/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 
 const InputForm = () => {
-  // const dispatch = useDispatch();
-  // const contacts = useSelector(state => state.contacts.items)
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items)
 
 
-  // const handleSubmit = evt => {
-  //   evt.preventDefault();
-  //   const form = evt.currentTarget
-  //   const name = form.elements.name.value;
-  //   const number = form.elements.number.value
-  //      if (contacts.find(contact=>contact.name === name) ){
-  //       Notify.info(`${name} is already in contacts.`);
-  //       return
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    const form = evt.currentTarget
+    const name = form.elements.name.value;
+    const number = form.elements.number.value
+       if (contacts.find(contact=>contact.name === name) ){
+        Notify.info(`${name} is already in contacts.`);
+        return
 
-  //      }
+       }
 
-  //   dispatch(add({
-  //     id: nanoid(),
-  //     name,
-  //     number
-  //   }))
+    dispatch(add({
+      id: nanoid(),
+      name,
+      number
+    }))
 
 
-  //   form.reset();
+    form.reset();
 
-  // }
+  }
 
   return (
     <Box
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <Input
         type="text"

@@ -1,14 +1,14 @@
 
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+// import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Input } from 'components/Input/Input';
 import { Box, Btn } from './InputForm.styled';
 // import { add } from 'redux/contacts/contactsSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { nanoid } from 'nanoid';
 
 const InputForm = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items)
+  // const dispatch = useDispatch();
+  // const contacts = useSelector(state => state.contacts.items)
 
 
   // const handleSubmit = evt => {

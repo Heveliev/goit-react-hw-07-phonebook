@@ -1,8 +1,24 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllContacts } from './thunk';
+import { fetchAllContacts, addContact, deleteContact } from './thunk';
+import { isAnyOf } from '@reduxjs/toolkit';
 
 
-// fetchAllContacts()
+
+const actions = [fetchAllContacts, addContact, deleteContact];
+
+const handleFetchContatcs = (state, action) => {
+  state.items = action.payload;
+};
+
+const handleAddContatcs= (state, action) => {
+  state.items.push(action.payload);
+};
+
+const handleDeleteContatcs = (state, action) => {
+  const idx = state.items.findIndex(item => item.id === action.payload.id);
+  state.items.splice(idx, 1);
+};
+
 
 export const contactsSlice = createSlice({
     name: 'contacts',
@@ -11,33 +27,29 @@ export const contactsSlice = createSlice({
     isLoading: false,
     error: null
   },
-  extraReducers: {
-    [fetchAllContacts.fulfilled]: (state, action) => {
-      return {
-        ...state,
-      items:action.payload}
-    },
-    [fetchAllContacts.pending]: state => {
-      return { ...state, isLoading:true}
-    },
-[fetchAllContacts.rejected]: (state, action) => {
-      return { ...state, error:action.payload}
-    }
 
-
-    }
+ extraReducers: builder =>
+    builder
+      .addCase(fetchAllContacts.fulfilled, handleFetchContatcs)
+      .addCase(addContact.fulfilled, handleAddContatcs)
+      .addCase(deleteContact.fulfilled, handleDeleteContatcs)
+      .addMatcher(
+        isAnyOf(...actions.map(action => action.fulfilled)),
+        state => {
+          state.isLoading = false;
+          state.error = null;
+        }
+      )
+      .addMatcher(isAnyOf(...actions.map(action => action.pending)), state => {
+        state.isLoading = true;
+      })
+      .addMatcher(
+        isAnyOf(...actions.map(action => action.rejected)),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        }
+      ),
 
 })
 
-
-
-
-    // reducers: {
-    //     add(state, action) {
-    //         state.items.unshift(action.payload)
-    //     },
-    //     remove(state, action) {
-    //       state.items = state.items.filter(contact => contact.id !== action.payload)
-    //     },
-    // }
-export const { add, remove} = contactsSlice.actions;

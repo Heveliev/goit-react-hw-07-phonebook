@@ -1,34 +1,26 @@
-
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { Input } from 'components/Input/Input';
 import { Box, Btn } from './InputForm.styled';
-import { add } from 'redux/contactsSlice/contactsSlice';
+import { addContact } from 'redux/contactsSlice/thunk';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+import { contactsSelect } from 'redux/select/select';
 
 const InputForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items)
+  const contacts = useSelector(contactsSelect)
 
 
   const handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.currentTarget
     const name = form.elements.name.value;
-    const number = form.elements.number.value
+    const phone = form.elements.number.value
        if (contacts.find(contact=>contact.name === name) ){
         Notify.info(`${name} is already in contacts.`);
         return
 
        }
-
-    dispatch(add({
-      id: nanoid(),
-      name,
-      number
-    }))
-
-
+    dispatch(addContact({ name, phone } ))
     form.reset();
 
   }
